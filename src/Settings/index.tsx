@@ -8,6 +8,7 @@ import ControllerTextField from "component/ControllerTextField";
 // import ControllerDate from "component/Form/ControllerDate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const validationSchema = yup.object().shape({
   backgroundColor: yup
@@ -27,21 +28,17 @@ const validationSchema = yup.object().shape({
       "email invalid"
     )
     .default(""),
-  // date: yup.date().required("required").nullable().typeError("invalid Date"),
+  date: yup.date().required("required").nullable().typeError("invalid Date"),
 });
 interface FormData {
   title: string;
   email: string;
   backgroundColor: string;
-  // date: Date | null;
+  date: Date | null;
 }
 
 const Settings = () => {
-  const {
-    handleSubmit,
-    control,
-    // formState: { errors },
-  } = useForm<FormData>({
+  const { handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: validationSchema.getDefault(),
@@ -88,12 +85,13 @@ const Settings = () => {
           <Grid item xs={12} sm={8} md={4}>
             <ControllerTextField name="backgroundColor" control={control} />
           </Grid>
-          {/* <Grid item xs={12} sm={4} md={2}>
+          <Grid item xs={12} sm={4} md={2}>
             <FormLabel required title="Date" name="date" />
           </Grid>
           <Grid item xs={12} sm={8} md={4}>
-            <ControllerDate control={control} name="date" errors={errors} />
-          </Grid> */}
+            {/* <ControllerDate control={control} name="date" errors={errors} /> */}
+            <DatePicker />
+          </Grid>
         </Grid>
         <Grid item xs={12} sm={8} md={4}>
           <Button sx={{ mt: 3 }} type="submit" variant="outlined">

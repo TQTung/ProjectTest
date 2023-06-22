@@ -1,5 +1,5 @@
-import type { DatePickerProps } from "@mui/lab/DatePicker";
-import DatePicker from "@mui/lab/DatePicker";
+import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import type { TextFieldProps } from "@mui/material/TextField";
 import TextField from "@mui/material/TextField";
 import type {
@@ -33,7 +33,7 @@ const ControllerDate = <T extends FieldValues>(props: Props<T>) => {
     <Controller
       render={({ field: { ref, ...others } }) => (
         <DatePicker
-          renderInput={(props: any) => (
+          slots={(props: Props<T>) => (
             <TextField
               {...props}
               {...TextFieldProps}
@@ -43,9 +43,9 @@ const ControllerDate = <T extends FieldValues>(props: Props<T>) => {
               id={name}
             />
           )}
-          InputAdornmentProps={{
-            position: "start",
-          }}
+          // InputAdornmentProps={{
+          //   position: "start",
+          // }}
           {...others}
           onChange={(value: Date | null | any) => {
             others.onChange(value);

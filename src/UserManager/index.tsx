@@ -30,6 +30,7 @@ interface FilterParams {
   sortBy: string;
   sortDirection: Order;
   searchText: string;
+  searchUserId: string;
 }
 
 interface Data {
@@ -77,6 +78,7 @@ const UserManager = () => {
     sortBy: "",
     sortDirection: "",
     searchText: "",
+    searchUserId: "",
   });
 
   const cells = useMemo(() => getCells(), []);
@@ -85,7 +87,8 @@ const UserManager = () => {
     axios
       .get("https://jsonplaceholder.typicode.com/posts", {
         params: {
-          ...(filters.searchText && { userId: filters.searchText }),
+          ...(filters.searchUserId && { userId: filters.searchUserId }),
+          ...(filters.searchText && { q: filters.searchText }),
           _page: filters.pageIndex,
           _limit: filters.pageSize,
         },
@@ -100,11 +103,19 @@ const UserManager = () => {
       });
   }, [filters]);
 
-  const onSearch = (searchText: string) => {
+  const onSearchText = (searchText: string) => {
     setFilters((state) => ({
       ...state,
       pageIndex: 1,
       searchText,
+    }));
+  };
+
+  const onSearchUserId = (searchUserId: string) => {
+    setFilters((state) => ({
+      ...state,
+      pageIndex: 1,
+      searchUserId,
     }));
   };
 
@@ -150,10 +161,17 @@ const UserManager = () => {
           <TableSearchField
             sx={{ width: "40%" }}
             title={""}
-            onSearch={onSearch}
-            searchText={filters.searchText}
+            onSearch={onSearchUserId}
+            searchText={filters.searchUserId}
             placeHolder={"filter by userId ... "}
-          ></TableSearchField>
+          />
+          <TableSearchField
+            sx={{ width: "40%" }}
+            title={""}
+            onSearch={onSearchText}
+            searchText={filters.searchText}
+            placeHolder={" ... "}
+          />
         </Box>
         <TableContainer>
           <Scrollbar sx={{ maxHeight: "500px" }}>
